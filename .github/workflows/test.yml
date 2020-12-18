@@ -1,0 +1,46 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - release/v1
+    tags-ignore:
+      - '*'
+    paths-ignore:
+      - LICENSE
+      - '**/README.md'
+      - requirements.Dockerfile
+      - requirements.txt
+      - .gitignore
+      - action.yml
+      - .github/workflows/build_push.yml
+      - '.idea/**'
+
+env:
+  EXPORT_NAME: ActionsTestV1
+  STACK_NAME: ActionsTestV1
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        aws_region: [us-east-1]
+    steps:
+      - uses: actions/checkout@v2
+      - name: deploy
+        uses: ./
+        with:
+          subcommand: deploy -f
+        env:
+          AWS_REGION:  ${{ matrix.aws_region }}
+      - name: destroy stack
+        uses: ./
+        with:
+          subcommand: destroy -f
+        env:
+          AWS_REGION:  ${{ matrix.aws_region }}
+

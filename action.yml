@@ -1,0 +1,16 @@
+name: CHANGE_ME
+description: 'Get started with Container actions'
+author: 'Quadio'
+inputs:
+  subcommand:
+    description: 'Subcommand to use'
+    default: 'deploy -f'
+    required: false
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.subcommand }}
+branding:
+  icon: arrow-up-circle
+  color: gray-dark
