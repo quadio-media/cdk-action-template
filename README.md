@@ -1,4 +1,4 @@
-# Provision AWS VPC
+# CHANGE ME
 
 This action provisions an AWS VPC using the AWS CDK cli. The intention is to encapsulate
 the code needed to provision resources. The goal is to avoid conflating microservice application code
